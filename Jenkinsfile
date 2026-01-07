@@ -12,14 +12,14 @@ pipeline {
 
         stage('Build Docker Image') {
             steps {
-                bat 'docker build -t trigger-app:latest .'
+                bat 'docker build --no-cache -t trigger-app .'
             }
         }
 
         stage('Run Docker Container') {
             steps {
                 bat '''
-                docker rm -f trigger-container
+                docker rm -f trigger-container 2>nul
                 docker run -d -p 5000:5000 --name trigger-container trigger-app
                 '''
             }
